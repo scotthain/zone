@@ -28,7 +28,7 @@ class Chef
       attribute :zone_base_dir, kind_of: String, default: '/zones'
       attribute :zone_ip, kind_of: String, required: true
       attribute :network_device, kind_of: String
-      attribute :password, kind_of: String, default: "changeme"
+      attribute :password, kind_of: String, default: 'changeme'
       attribute :global_network_adapter, kind_of: String
       attribute :config_attributes, kind_of: Array
     end

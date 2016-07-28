@@ -17,7 +17,6 @@
 
 module ZoneCookbook
   module Helpers
-
     #
     # Ensures mixlib-shellout gem is installed and loaded.
     #

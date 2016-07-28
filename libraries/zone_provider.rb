@@ -46,17 +46,14 @@ class Chef
       end
 
       action :create do
-
         handle_create
       end
 
       action :delete do
-
         handle_delete
       end
 
       action :reconfigure do
-
         handle_reconfigure
       end
     end

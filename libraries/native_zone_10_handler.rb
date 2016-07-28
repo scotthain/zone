@@ -18,15 +18,12 @@
 module Zone
   module NativeZone10Handler
     def handle_create
-
     end
 
     def handle_delete
-
     end
 
     def handle_reconfigure
-
     end
   end
 end

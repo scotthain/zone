@@ -48,45 +48,33 @@ module Zone
         action :create
       end
 
-      if zone_exists? (new_resource.zone_name)
-        Chef::Log.warn "ZONE EXISTS ALREADY!"
+      if zone_exists?(new_resource.zone_name)
+        Chef::Log.warn 'ZONE EXISTS ALREADY!'
       else
-        ruby_block 'configure_zone' do
-          block do
-            Chef::Log.warn("Defining zone #{new_resource.zone_name}")
-            zonecfg_exec = Mixlib::ShellOut.new("zonecfg -z '#{new_resource.zone_name}' -f #{Chef::Config[:file_cache_path]}/#{new_resource.zone_name}.zonecfg").run_command
-            Chef::Log.warn zonecfg_exec.stdout
-            Chef::Log.warn zonecfg_exec.stderr
-            zonecfg_exec.error!
-          end
-          action :run
-        end
+        Chef::Log.warn("Defining zone #{new_resource.zone_name}")
+        zonecfg_exec = Mixlib::ShellOut.new("zonecfg -z '#{new_resource.zone_name}' -f #{Chef::Config[:file_cache_path]}/#{new_resource.zone_name}.zonecfg").run_command
+        Chef::Log.warn zonecfg_exec.stdout
+        Chef::Log.warn zonecfg_exec.stderr
+        zonecfg_exec.error!
 
-        ruby_block 'install_zone' do
-          block do
-            Chef::Log.warn("Installing zone #{new_resource.zone_name}")
-            zoneadm_cfg = Mixlib::ShellOut.new("zoneadm -z #{new_resource.zone_name} install -c #{Chef::Config[:file_cache_path]}/#{new_resource.zone_name}.xml").run_command
-            Chef::Log.warn zoneadm_cfg.stdout
-            Chef::Log.warn zoneadm_cfg.stderr
-            zoneadm_cfg.error!
-          end
-          action :run
-        end
+        Chef::Log.warn("Installing zone #{new_resource.zone_name}")
+        zoneadm_cfg = Mixlib::ShellOut.new("zoneadm -z #{new_resource.zone_name} install -c #{Chef::Config[:file_cache_path]}/#{new_resource.zone_name}.xml").run_command
+        Chef::Log.warn zoneadm_cfg.stdout
+        Chef::Log.warn zoneadm_cfg.stderr
+        zoneadm_cfg.error!
       end
     end
 
     def handle_delete
-
     end
 
     def handle_reconfigure
-
     end
 
     def hash_it(password)
-#      salt = rand(36**6).to_s(36)
+      # salt = rand(36**6).to_s(36)
       salt = rand(36**8).to_s(36)
-      password.crypt("$6$" + salt)
+      password.crypt('$6$' + salt)
     end
 
     #
@@ -94,23 +82,16 @@ module Zone
     # zone exists
     #
     def zone_exists?(zone_name)
-      ruby_block 'run_command' do
-        block do
-          output = Mixlib::ShellOut.new("zoneadm -z #{zone_name} list -p").run_command
-        end
-        action :run
+      output = Mixlib::ShellOut.new("zoneadm -z #{zone_name} list -p").run_command
+      if output.stdout.split(':')[1].eql? zone_name
+        true
+      else
+        false
       end
-      # nope wrong wrong wrong
-      # if output.stdout.split(':')[1].eql? zone_name
-      #   true
-      # else
-      #   false
-      # end
     end
 
     # def first_network_device
     #   puts node['network']['interfaces'].to_s
     # end
-
   end
 end
