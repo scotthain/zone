@@ -12,8 +12,13 @@ provisioner:
 #   format: doc
 
 platforms:
-  - name: ubuntu-16.04
-  - name: centos-7.2
+  - name: solaris-11
+    driver:
+      box: 'chef/solaris-11.3'
+      network:
+        - ["public_network", {bridge: "en0: Wi-Fi (AirPort)"}]
+#      box_url: '/Users/shain/oc/code/opscode/bento/builds/solaris-11.3.virtualbox.box'
+
 
 suites:
   - name: default

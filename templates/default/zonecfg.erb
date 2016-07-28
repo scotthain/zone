@@ -1,0 +1,19 @@
+create -b
+set zonepath=<%= @zone_base_dir %>/<%= @zone_name %>
+set autoboot=true
+set ip-type=shared
+set bootargs="-m verbose"
+add net
+set address=<%= @zone_ip %>
+set physical=<%= @network_device %>
+end
+add attr
+set name=comment
+set type=string
+set value="Created by chef"
+end
+<% if @config_attributes %>
+<% @config_attributes.each do | c_attr | %>
+<%= c_attr %>
+<% end %>
+<% end %>

@@ -1,5 +1,5 @@
 name 'zone'
-maintainer 'The Authors'
+maintainer 'Scott Hain <shain@chef.io>'
 maintainer_email 'you@example.com'
 license 'all_rights'
 description 'Installs/Configures zone'
